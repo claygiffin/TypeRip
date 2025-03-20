@@ -43,9 +43,9 @@ const FontSetContainer: React.FC<FontSetContainerProps> = ({ fontset, onDownload
               )}
             </div>
             <div className="button_container">
-              <a className="button" onClick={() => download(fontset.fonts, fontset.name)}>
+              <button className="button" onClick={() => download(fontset.fonts, fontset.name)}>
                 Download All
-              </a>
+              </button>
             </div>
           </div>
         </div>

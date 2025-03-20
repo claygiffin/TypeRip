@@ -47,9 +47,9 @@ const FontBox: React.FC<FontBoxProps> = ({
             <p className="small">{fontstyle}</p>
           </div>
           <div className="button_container">
-            <a className="button" onClick={() => onDownload(fonturl, fontname)}>
+            <button className="button" onClick={() => onDownload(fonturl, fontname)}>
               <i className="icon ion-md-arrow-down"></i>
-            </a>
+            </button>
           </div>
         </div>
       </div>
