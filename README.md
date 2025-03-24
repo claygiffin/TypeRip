@@ -13,6 +13,10 @@
 
 ### Whats new?
 
+March 24, 2025:
+* Converted to React.
+* Re-implemented some OpenType.js font rebuilding in order to fix incorrect font family names and subfamily (style) names.
+
 January 7th, 2024:
 * Complete rewrite using Vite, Vue components and other _modern javascript practices_.
 * Removed all OpenType.js-based font rebuilding as this wasn't working well and is no longer necessary because:
