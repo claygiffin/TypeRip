@@ -171,23 +171,30 @@ export class TypeRip {
     const zip = new JSZip();
     for (const font of fonts) {
       const fontArray = await this.getFontFile(font)
-      const arrayBuffer = fontArray.buffer.slice(
-        fontArray.byteOffset,
-        fontArray.byteOffset + fontArray.byteLength
-      )
-      const fontParsed = opentype.parse(arrayBuffer)
+      const arrayBuffer = fontArray.slice().buffer;
 
-      // Modify font metadata
-      fontParsed.names.fontSubfamily = { en: font.subfamilyName }
-      fontParsed.names.fontFamily = { en: font.familyName }
-      fontParsed.names.fullName = { en: font.name }
+      let finalBuffer: ArrayBuffer
 
-      // Export and save or zip the modified font
-      const modifiedBuffer = fontParsed.toArrayBuffer()
+      try {
+        const fontParsed = opentype.parse(arrayBuffer)
+
+        // Modify font metadata
+        fontParsed.names.fontSubfamily = { en: font.subfamilyName }
+        fontParsed.names.fontFamily = { en: font.familyName }
+        fontParsed.names.fullName = { en: font.name }
+
+        // Attempt to re-export modified font
+        finalBuffer = fontParsed.toArrayBuffer()
+      } catch (error) {
+        console.warn(`Modification failed for ${font.name}, using original data.`, error)
+        // fallback to original if modification fails
+        finalBuffer = arrayBuffer
+      }
+
       if (options?.downloadAsZip) {
-        zip.file(`${font.name}.ttf`, modifiedBuffer);
+        zip.file(`${font.name}.ttf`, finalBuffer);
       } else {
-        saveAs(new Blob([modifiedBuffer], { type: 'font/ttf' }), `${font.name}.ttf`)
+        saveAs(new Blob([finalBuffer], { type: 'font/ttf' }), `${font.name}.ttf`)
       }
     }
     if (options?.downloadAsZip) {
