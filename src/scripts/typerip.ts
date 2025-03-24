@@ -107,13 +107,13 @@ export class TypeRip {
     return {
       name: json.fontpack.name,
       designers: [{ name: json.fontpack.contributor_credit, url }],
-      fonts: json.fontpack.font_variations.map((variation: any) => ({
-        url: `https://use.typekit.net/pf/tk/${variation.opaque_id}/${variation.fvd}/l?unicode=AAAAAQAAAAEAAAAB&features=ALL&v=3&ec_token=${EC_TOKEN}`,
-        name: variation.full_display_name,
-        style: variation.variation_name,
-        subfamilyName: variation.preferred_subfamily_name,
-        familyName: variation.family.name,
-        familyUrl: `https://fonts.adobe.com/fonts/${variation.family.slug}`,
+      fonts: json.fontpack.font_variations.map((font: any) => ({
+        url: `https://use.typekit.net/pf/tk/${font.opaque_id}/${font.fvd}/l?unicode=AAAAAQAAAAEAAAAB&features=ALL&v=3&ec_token=${EC_TOKEN}`,
+        name: font.full_display_name,
+        style: font.variation_name,
+        subfamilyName: font.variation_name,
+        familyName: font.family.name,
+        familyUrl: `https://fonts.adobe.com/fonts/${font.family.slug}`,
         fontpackName: json.fontpack.name
       })),
       defaultLanguage: json.fontpack.font_variations[0].default_language,
@@ -133,12 +133,12 @@ export class TypeRip {
           ? `https://fonts.adobe.com${json.designer_info[d.slug].url}`
           : undefined,
       })),
-      fonts: json.family.fonts.map((f: any) => ({
-        url: `https://use.typekit.net/pf/tk/${f.family.web_id}/${f.font.web.fvd}/l?unicode=AAAAAQAAAAEAAAAB&features=ALL&v=3&ec_token=${EC_TOKEN}`,
-        name: f.name,
-        style: f.variation_name,
-        subfamilyName: f.preferred_subfamily_name,
-        familyName: f.preferred_family_name,
+      fonts: json.family.fonts.map((font: any) => ({
+        url: `https://use.typekit.net/pf/tk/${font.family.web_id}/${font.font.web.fvd}/l?unicode=AAAAAQAAAAEAAAAB&features=ALL&v=3&ec_token=${EC_TOKEN}`,
+        name: font.name,
+        style: font.variation_name,
+        subfamilyName: font.preferred_subfamily_name,
+        familyName: font.preferred_family_name,
         familyUrl: `https://fonts.adobe.com/fonts/${json.family.slug}`,
         fontpackName: json.family.name
       })),
@@ -169,7 +169,6 @@ export class TypeRip {
   // Download and modify fonts
   static async downloadFonts(fonts: FontInfo[], options?: { downloadAsZip?: boolean }) {
     const zip = new JSZip();
-
     for (const font of fonts) {
       const fontArray = await this.getFontFile(font)
       const arrayBuffer = fontArray.buffer.slice(
