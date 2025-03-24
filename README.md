@@ -1,7 +1,7 @@
 ![TypeRip Logo](https://raw.githubusercontent.com/CodeZombie/TypeRip/master/src/assets/typerip_logo_small.png)
 ### The [Adobe Fonts](https://fonts.adobe.com/) ripper.
 
-## [Get It Here](http://codezombie.github.io/TypeRip/)
+## [Get It Here](https://typerip.netlify.app/)
 
 ### How to use it
   1. Enter an Adobe Fonts [font family](https://fonts.adobe.com/fonts) or [font collection](https://fonts.adobe.com/collections) URL into the address bar, then press enter.
