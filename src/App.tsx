@@ -13,9 +13,10 @@ const App: React.FC = () => {
   const [messageIsVisible, setMessageIsVisible] = useState(true)
   const [messageTitle, setMessageTitle] = useState('TypeRip')
   const [messageText, setMessageText] = useState(
-    "<p><strong>The <a href='https://fonts.adobe.com/'>Adobe Fonts</a> ripper</strong></p><p>Updated March 2025</p><br/><p>Enter a Font Family or Font Pack URL from <a href='https://fonts.adobe.com/'>Adobe Fonts</a> to begin.</p><p>By using this tool, you agree to not violate copyright law or licenses established by the font owners, font foundries and/or Adobe. All fonts belong to their respective owners.</p><br><p>Having an issue? Report it on <a href='https://github.com/CodeZombie/TypeRip'>GitHub</a></p>",
+    "<p><strong>The <a href='https://fonts.adobe.com/'>Adobe Fonts</a> ripper</strong></p><p>Updated March 2025</p><br/><p>Enter a Font Family or Font Pack URL from <a href='https://fonts.adobe.com/'>Adobe Fonts</a> to begin.</p><p>By using this tool, you agree to not violate copyright law or licenses established by the font owners, font foundries and/or Adobe. All fonts belong to their respective owners.</p><br><p>Having an issue? Report it on <a href='https://github.com/CodeZombie/TypeRip'>GitHub</a></p>"
   )
-  const [activeFontGroup, setActiveFontGroup] = useState<FontSet | null>(null)
+  const [activeFontGroup, setActiveFontGroup] =
+    useState<FontSet | null>(null)
 
   const displayMessage = (title: string, text: string) => {
     setMessageIsVisible(true)
@@ -41,8 +42,8 @@ const App: React.FC = () => {
           response.name,
           response.designers,
           response.fonts,
-          response.sampleText,
-        ),
+          response.sampleText
+        )
       )
     } else if (urlType === 'FontCollection') {
       const response = await TypeRip.getFontCollection(url)
@@ -51,8 +52,8 @@ const App: React.FC = () => {
           response.name,
           response.designers,
           response.fonts,
-          response.sampleText,
-        ),
+          response.sampleText
+        )
       )
     }
   }
@@ -62,17 +63,32 @@ const App: React.FC = () => {
     setActiveFontGroup(fontGroup)
   }
 
-  const download = (fonts: any[]) => {
-    TypeRip.downloadFonts(fonts)
+  const handleDownload = (
+    fonts: any[],
+    options?: { downloadAsZip: boolean }
+  ) => {
+    TypeRip.downloadFonts(fonts, {
+      downloadAsZip: options?.downloadAsZip,
+    })
   }
 
   return (
     <Fragment>
       <Helmet>
         <title>TypeRip</title>
-        <link rel="icon" href="favicon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="icon"
+          href="favicon.png"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           rel="stylesheet"
           href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
@@ -89,10 +105,16 @@ const App: React.FC = () => {
         <article>
           <div className="grid">
             {messageIsVisible && (
-              <MessageBox title={messageTitle} htmlContent={messageText} />
+              <MessageBox
+                title={messageTitle}
+                htmlContent={messageText}
+              />
             )}
             {activeFontGroup && (
-              <FontsetContainer fontset={activeFontGroup} onDownload={download} />
+              <FontsetContainer
+                fontset={activeFontGroup}
+                onDownload={handleDownload}
+              />
             )}
           </div>
         </article>

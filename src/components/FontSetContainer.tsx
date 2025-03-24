@@ -4,13 +4,17 @@ import type { FontCollection, FontInfo } from '../scripts/typerip'
 
 interface FontSetContainerProps {
   fontset: FontCollection
-  onDownload: (fonts: FontInfo[], familyName: string) => void
+  onDownload: (
+    fonts: FontInfo[],
+    options?: { downloadAsZip: boolean }
+  ) => void
 }
 
-const FontSetContainer: React.FC<FontSetContainerProps> = ({ fontset, onDownload }) => {
-  const download = (fonts: FontInfo[], familyName: string) => {
-    onDownload(fonts, familyName)
-  }
+const FontSetContainer: React.FC<FontSetContainerProps> = ({
+  fontset,
+  onDownload,
+}) => {
+  const handleDownload = onDownload
 
   const getFontsInChunks = (chunkSize: number): FontInfo[][] => {
     const output: FontInfo[][] = []
@@ -43,7 +47,12 @@ const FontSetContainer: React.FC<FontSetContainerProps> = ({ fontset, onDownload
               )}
             </div>
             <div className="button_container">
-              <button className="button" onClick={() => download(fontset.fonts, fontset.name)}>
+              <button
+                className="button"
+                onClick={() =>
+                  handleDownload(fontset.fonts, { downloadAsZip: true })
+                }
+              >
                 Download All
               </button>
             </div>
@@ -51,11 +60,14 @@ const FontSetContainer: React.FC<FontSetContainerProps> = ({ fontset, onDownload
         </div>
       </div>
       {getFontsInChunks(3).map((chunk, cKey) => (
-        <div className="row" key={cKey}>
+        <div
+          className="row"
+          key={cKey}
+        >
           {chunk.map((font, fKey) => (
             <FontBox
               key={cKey * 3 + fKey}
-              onDownload={() => download([font], font.name)}
+              onDownload={() => handleDownload([font])}
               fontname={font.name}
               fontstyle={font.style}
               fonturl={font.url}
