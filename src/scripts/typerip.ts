@@ -45,10 +45,10 @@ export interface FontCollection {
 // Main class for fetching and handling fonts
 export class TypeRip {
   static CORSProxies = [
-    'https://thingproxy.freeboard.io/fetch/',
-    'https://api.allorigins.win/raw?url=',
-    'https://api.codetabs.com/v1/proxy/?quest=',
-    'https://corsproxy.io/?',
+    'https://thingproxy.freeboard.io/fetch/', // Returns 404 when Adobe Fonts sends a 404
+    'https://api.allorigins.win/raw?url=', // Returns a 200 when Adobe Fonts sends a 404
+    'https://api.codetabs.com/v1/proxy/?quest=', // Returns a 200 when Adobe Fonts sends a 404
+    'https://corsproxy.io/?', // Adobe Fonts sends a 404 through this one even when the URL is valid. Did Adobe blacklist this one?
   ];
 
   // Ensure URL starts with HTTPS
