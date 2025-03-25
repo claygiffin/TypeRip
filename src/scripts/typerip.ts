@@ -29,7 +29,7 @@ export interface Designer {
   url?: string
 }
 
-export interface FontInfo {
+export interface Font {
   url: string
   name: string
   style: string
@@ -42,7 +42,7 @@ export interface FontInfo {
 export interface FontCollection {
   name: string
   designers: Designer[]
-  fonts: FontInfo[]
+  fonts: Font[]
   defaultLanguage?: string
   sampleText?: string
 }
@@ -161,13 +161,13 @@ export class TypeRip {
   }
 
   // Fetch font file
-  static async getFontFile(font: FontInfo): Promise<Uint8Array> {
+  static async getFontFile(font: Font): Promise<Uint8Array> {
     const response = await axios.get(font.url, { responseType: 'arraybuffer' })
     return this.convertWoff2ToTTF(new Uint8Array(response.data))
   }
 
   // Download and modify fonts
-  static async downloadFonts(fonts: FontInfo[], options?: { downloadAsZip?: boolean }) {
+  static async downloadFonts(fonts: Font[], options?: { downloadAsZip?: boolean }) {
     const zip = new JSZip();
     for (const font of fonts) {
       const fontArray = await this.getFontFile(font)

@@ -1,11 +1,11 @@
 import React from 'react'
 import FontBox from './FontBox'
-import type { FontCollection, FontInfo } from '../scripts/typerip'
+import type { FontCollection, Font } from '../scripts/typerip'
 
 interface FontSetContainerProps {
   fontset: FontCollection
   onDownload: (
-    fonts: FontInfo[],
+    fonts: Font[],
     options?: { downloadAsZip: boolean }
   ) => void
 }
@@ -16,8 +16,8 @@ const FontSetContainer: React.FC<FontSetContainerProps> = ({
 }) => {
   const handleDownload = onDownload
 
-  const getFontsInChunks = (chunkSize: number): FontInfo[][] => {
-    const output: FontInfo[][] = []
+  const getFontsInChunks = (chunkSize: number): Font[][] => {
+    const output: Font[][] = []
     if (fontset.fonts) {
       for (let i = 0; i < fontset.fonts.length; i++) {
         if (i % chunkSize === 0) output.push([])
