@@ -27,6 +27,7 @@ export const modifyFontServerSide = async (
   formData.append('fullName', fullName)
 
 
+  console.log(process.env.REACT_APP_RENDER_API_URL)
   try {
     const response = await axios.post(API_URL + '/modify-font', formData, {
       responseType: 'blob', // important for file downloads
