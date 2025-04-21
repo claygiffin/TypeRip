@@ -15,6 +15,7 @@ ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",
 # Only allow requests from your frontend
 CORS(app, origins=ALLOWED_ORIGINS)
 
+
 @app.route("/modify-font", methods=["POST"])
 def modify_font():
     if ENV == "production" and request.headers.get("x-api-key") != RENDER_API_KEY:
@@ -49,4 +50,4 @@ def modify_font():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=False, host="0.0.0.0", port=5000)
