@@ -7,6 +7,9 @@ type Props = {
   fullName: string
 }
 
+const API_KEY = process.env.REACT_APP_RENDER_API_KEY
+const API_URL = process.env.REACT_APP_RENDER_API_URL || 'http://localhost:5000'
+
 export const modifyFontServerSide = async (
   {
     fontData,
@@ -25,8 +28,11 @@ export const modifyFontServerSide = async (
 
 
   try {
-    const response = await axios.post('http://localhost:5000/modify-font', formData, {
+    const response = await axios.post(API_URL + '/modify-font', formData, {
       responseType: 'blob', // important for file downloads
+      headers: {
+        'x-api-key': API_KEY
+      }
     })
 
     // save the modified font returned from server
