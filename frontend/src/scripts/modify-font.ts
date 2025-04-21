@@ -8,7 +8,7 @@ type Props = {
 }
 
 const API_KEY = process.env.REACT_APP_RENDER_API_KEY
-const API_URL = process.env.REACT_APP_RENDER_API_URL || 'http://localhost:5000'
+const API_URL = process.env.REACT_APP_RENDER_API_URL || 'http://localhost:5555'
 
 export const modifyFontServerSide = async (
   {

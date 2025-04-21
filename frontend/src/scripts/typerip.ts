@@ -141,7 +141,10 @@ export const getFontFile = async (font: Font): Promise<Uint8Array> => {
 }
 
 // Download and modify fonts
-export const downloadFonts = async (fonts: Font[], options?: { downloadAsZip?: boolean }) => {
+export const downloadFonts = async (fonts: Font[], options?: {
+  downloadAsZip?: boolean
+  onProgress?: (progress: { current?: number; total?: number; status: string }) => void
+}) => {
   const zip = new JSZip();
   const { compress } = await import('woff2-encoder')
 
@@ -149,7 +152,10 @@ export const downloadFonts = async (fonts: Font[], options?: { downloadAsZip?: b
     return name.replace(/[<>:"/\\|?*\s]+/g, '')
   }
 
-  for (const font of fonts) {
+  for (let i = 0; i < fonts.length; i++) {
+    const font = fonts[i]
+    options?.onProgress?.({ current: i + 1, total: fonts.length, status: `Processing ${font.name}` })
+
     const fontArray = await getFontFile(font)
     const arrayBuffer = fontArray.slice().buffer;
 
@@ -172,6 +178,7 @@ export const downloadFonts = async (fonts: Font[], options?: { downloadAsZip?: b
       } else {
         saveAs(modifiedFontBlob, `${fileName}.ttf`)
         saveAs(modifiedWoff2Blob, `${fileName}.woff2`)
+        options?.onProgress?.({ current: i + 1, total: fonts.length, status: `Finished downloading ${font.name}` })
       }
 
     } catch (error) {
@@ -185,8 +192,10 @@ export const downloadFonts = async (fonts: Font[], options?: { downloadAsZip?: b
     // Generate and save the ZIP file
     zip.generateAsync({ type: 'blob' }).then((content) => {
       saveAs(content, fonts[0].fontpackName);
+      options?.onProgress?.({ status: `Download complete` })
     });
   }
+  options?.onProgress?.({ status: `Download complete` })
 }
 
 

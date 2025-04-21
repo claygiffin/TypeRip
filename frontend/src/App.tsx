@@ -14,6 +14,7 @@ import {
   getURLType,
   prependHttpsToURL,
 } from './scripts/typerip'
+import { Progress } from './components/Progress.tsx'
 
 const App: React.FC = () => {
   const [messageIsVisible, setMessageIsVisible] = useState(true)
@@ -69,12 +70,22 @@ const App: React.FC = () => {
     setActiveFontGroup(fontGroup)
   }
 
+  const [progress, setProgress] = useState<
+    | {
+        current?: number
+        total?: number
+        status: string
+      }
+    | undefined
+  >()
+
   const handleDownload = (
     fonts: any[],
     options?: { downloadAsZip: boolean }
   ) => {
     downloadFonts(fonts, {
       downloadAsZip: options?.downloadAsZip,
+      onProgress: progress => setProgress(progress),
     })
   }
 
@@ -124,6 +135,7 @@ const App: React.FC = () => {
             )}
           </div>
         </article>
+        <Progress progress={progress} />
       </main>
     </Fragment>
   )
