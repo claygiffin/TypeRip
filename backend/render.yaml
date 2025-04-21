@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: typerip-api
+    env: python
+    plan: free
+    buildCommand: ""                # optional
+    startCommand: "python app.py"   # adjust if needed
+    rootDir: backend                # 🔹 tell Render this is in /backend
+    autoDeploy: true
+    envVars:
+      - key: FLASK_ENV
+        value: production
