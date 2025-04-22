@@ -7,7 +7,6 @@ type Props = ComponentProps<'div'> & {
 }
 
 export const Progress = ({ progress, ...props }: Props) => {
-  console.log(progress)
   const inProgress =
     progress?.status && progress.status !== 'Download complete'
   return (

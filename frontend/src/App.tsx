@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import FontsetContainer from './components/FontSetContainer.tsx'
 import MessageBox from './components/MessageBox.tsx'
 import SearchBar from './components/SearchBar.tsx'
@@ -88,6 +88,12 @@ const App: React.FC = () => {
       onProgress: progress => setProgress(progress),
     })
   }
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_RENDER_API_URL}/ping`)
+      .then(() => console.log('API pinged successfully'))
+      .catch(err => console.warn('API ping failed', err))
+  }, [])
 
   return (
     <Fragment>
